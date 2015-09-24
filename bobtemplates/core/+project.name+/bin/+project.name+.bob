@@ -24,10 +24,11 @@ def parse_cli():
 
     # Example with subparsers
     #subparsers = parser.add_subparsers(help='', dest='sub1')
-    sub1 = subparsers.add_parser('sub1')
-    sub1.add_argument('amazing', help='BE AMAZING!')
+    #sub1 = subparsers.add_parser('sub1')
+    #sub1.add_argument('amazing', help='BE AMAZING!')
 
-    sub1.set_defaults(**dict((config.get('sub1') or {}).items()))
+    # Load default values from config, if available
+    #sub1.set_defaults(**dict((config.get('sub1') or {}).items()))
 
     args = vars(parser.parse_args())  # parse and load args as a dict
 
