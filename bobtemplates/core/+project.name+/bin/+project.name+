@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+# coding: utf-8
+# Author: "{{{author.name}}}" <{{{author.email}}}>
+
+# PY3 Compatability
+from __future__ import unicode_literals, absolute_import
+
+from {{{project.name}}}.utils import logr, config
+
+
+def parse_cli():
+    '''
+    {{{project.name}}} CLI API
+    '''
+    parser = argparse.ArgumentParser(
+        description='{{{project.description}}}')
+
+    parser.add_argument('-o', metavar='o', nargs='?',
+                        dest='output', help='Output file')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help="turn verbose logging ON")
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help="turn debug logging ON")
+
+    # Example with subparsers
+    #subparsers = parser.add_subparsers(help='', dest='sub1')
+    sub1 = subparsers.add_parser('sub1')
+    sub1.add_argument('amazing', help='BE AMAZING!')
+
+    sub1.set_defaults(**dict((config.get('sub1') or {}).items()))
+
+    args = vars(parser.parse_args())  # parse and load args as a dict
+
+    # Go ahead and deal with logging debug/verbosity setting
+    if args['debug']:
+        # logr = logging.getLogger()  # get root logger
+        logr.setLevel(logging.DEBUG)
+    elif args['verbose']:
+        logr.setLevel(logging.INFO)
+    else:
+        logr.setLevel(logging.WARN)
+
+    return args
+
+
+if __name__ == "__main__":
+    # Load the user config file from their home directory
+    args = parse_cli()
+
+    output_file = args['output']
+
+    # DO SOMETHING #
+
+    if output_file:
+        with open(output_file, 'wb') as f:
+            f.write(output)
+    else:
+        print(output)
